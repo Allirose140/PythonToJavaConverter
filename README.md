@@ -70,3 +70,81 @@ Generated Java is not fully valid for arbitrary Python input
 Compilation is simulated and does not invoke a real Java compiler
 
 No complex type inference or advanced parsing
+
+-----------------------------------------------------------------------------------------
+USER MANUAL
+
+## Installation
+
+No installation is required. The application runs directly using the included Gradle wrapper.
+
+### Requirements
+- Java 21 or later
+
+### Setup
+1. Download or clone the project directory.
+2. Verify that Java is installed:
+   \`\`\`
+   java -version
+   \`\`\`
+
+### Running the Application
+
+Navigate to the project folder in your terminal and run:
+
+#### Windows:
+\`\`\`
+.\gradlew run
+\`\`\`
+
+#### macOS/Linux:
+\`\`\`
+./gradlew run
+\`\`\`
+
+Gradle will automatically download dependencies and launch the application.
+
+---
+
+## Usage Instructions
+
+### 1. Import a Python Project
+- Click **Import Project**.
+- Select a folder containing one or more `.py` files.
+- Imported files appear in the Project Explorer on the left.
+
+### 2. View Python Source
+- Click any Python file in the Project Explorer to display its contents.
+
+### 3. Translate to Java
+- Select a file and click **Translate to Java**.
+- The **Preview** tab displays Python (left) and generated Java (right).
+- Translation metrics (LOC, warnings, errors) update automatically.
+
+### 4. Review Issues
+- Open the **Issues** tab to view:
+    - Unsupported constructs (e.g., `eval`, `exec`)
+    - Simple syntax problems (e.g., missing colons in loops)
+- Each issue includes severity, file name, line number, and message.
+
+### 5. Simulate Compilation
+- Click **Compile**.
+- If errors exist in the Issues tab, compilation fails.
+- If no errors exist, compilation succeeds.
+- Detailed messages appear in the **Logs** tab.
+
+### 6. Export a Report
+- Click **Export Report**.
+- A summary report is generated containing:
+    - Metrics (LOC, translated lines, warnings, errors)
+    - Issues detected
+    - Compilation status
+
+---
+
+## Limitations
+- Supports only basic Python syntax.
+- Generated Java is not guaranteed to compile for all Python inputs.
+- Compilation is simulated and does not invoke a real Java compiler.
+
+
