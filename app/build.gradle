@@ -1,59 +1,38 @@
 plugins {
     id 'application'
-}
-
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
-    }
+    id 'org.openjfx.javafxplugin' version '0.0.13'
 }
 
 repositories {
     mavenCentral()
 }
 
-def fxVersion = '21.0.2'
-
-// Pick the correct JavaFX classifier for the OS/arch running Gradle
-def os = org.gradle.internal.os.OperatingSystem.current()
-def arch = System.getProperty("os.arch")
-def fxPlatform =
-        os.isWindows() ? 'win' :
-        os.isMacOsX()  ? (arch.contains('aarch64') ? 'mac-aarch64' : 'mac') :
-                         (arch.contains('aarch64') ? 'linux-aarch64' : 'linux')
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
 
 dependencies {
-    implementation "org.openjfx:javafx-base:${fxVersion}:${fxPlatform}"
-    implementation "org.openjfx:javafx-graphics:${fxVersion}:${fxPlatform}"
-    implementation "org.openjfx:javafx-controls:${fxVersion}:${fxPlatform}"
-    implementation "org.openjfx:javafx-fxml:${fxVersion}:${fxPlatform}"
+    def javafxVersion = "22.0.1"
+
+    implementation "org.openjfx:javafx-base:${javafxVersion}"
+    implementation "org.openjfx:javafx-controls:${javafxVersion}"
+    implementation "org.openjfx:javafx-graphics:${javafxVersion}"
+    implementation "org.openjfx:javafx-fxml:${javafxVersion}"
 
     testImplementation "org.junit.jupiter:junit-jupiter:5.10.0"
 }
 
-java {
-    // Force Gradle to use JDK 21 for compile/run even if 24 is installed
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
-    }
+javafx {
+    version = "17"
+    modules = [ 'javafx.controls', 'javafx.fxml' ]
 }
 
 application {
     mainClass = "org.example.ConverterUI"
 }
 
-// <<< The crucial bit: put JavaFX jars on the module-path for the run task
-tasks.named('run') {
-    doFirst {
-        jvmArgs = [
-            "--module-path", configurations.runtimeClasspath.asPath,
-            "--add-modules", "javafx.controls,javafx.fxml"
-        ]
-    }
-}
-
-// Disable tests for now to avoid the JUnit Platform noise
 tasks.test {
     useJUnitPlatform()
-    enabled = false
 }
